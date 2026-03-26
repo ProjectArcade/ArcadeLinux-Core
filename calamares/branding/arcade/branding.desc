@@ -1,0 +1,30 @@
+componentName: arcade
+
+welcomeStyleCalamares: false
+welcomeExpandingLogo: true
+
+strings:
+  productName:          "Arcade Linux"
+  shortProductName:     "Arcade"
+  version:              "1.0"
+  shortVersion:         "1.0"
+  versionedName:        "Arcade Linux 1.0"
+  bootloaderEntryName:  "Arcade Linux"
+  productUrl:           "https://github.com/ProjectArcade/Arcade-OS"
+  supportUrl:           "https://github.com/ProjectArcade/Arcade-OS/issues"
+  releaseNotesUrl:      "https://github.com/ProjectArcade/Arcade-OS"
+
+images:
+  productLogo:          "logo.png"
+  productIcon:          "logo.png"
+  productWelcome:       "background.png"
+
+slideshow:              "show.qml"
+slideshowAPI:           2
+
+style:
+  sidebarBackground:    "#1e1e2e"
+  sidebarText:          "#cdd6f4"
+  sidebarTextSelect:    "#89b4fa"
+  sidebarTextHighlight: "#89b4fa"
+  sidebarTextHighlightBg: "#313244"
