@@ -1,0 +1,35 @@
+componentName: arcade
+
+welcomeStyleCalamares: false
+welcomeExpandingLogo: false
+
+strings:
+  productName:         "Arcade Linux"
+  shortProductName:    "Arcade"
+  version:             "1.0"
+  shortVersion:        "1.0"
+  versionedName:       "Arcade Linux 1.0"
+  bootloaderEntryName: "Arcade Linux"
+
+images:
+  productLogo:         "logo.png"
+  productIcon:         "logo.png"
+
+slideshow:    "show.qml"
+slideshowAPI: 2
+
+sidebar:    "widget"
+navigation: "widget"
+
+stylesheet: "arcade.qss"
+
+style:
+  SidebarBackground:        "#0f1e3c"
+  SidebarText:              "#94a3b8"
+  SidebarTextCurrent:       "#ffffff"
+  SidebarBackgroundCurrent: "#3b82f6"
+  SidebarTextHighlight:     "#3b82f6"
+  ButtonColorDefault:       "#e2e8f0"
+  ButtonTextColorDefault:   "#334155"
+  ButtonColorNext:          "#3b82f6"
+  ButtonTextColorNext:      "#ffffff"
