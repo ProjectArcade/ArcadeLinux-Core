@@ -145,4 +145,4 @@ Welcome → Location → Keyboard → Partition → Users → Summary → Instal
 
 ## License
 
-GPL-2.0 — Made with ❤️ by [@thakurabhinav22](https://github.com/thakurabhinav22)
+GPL-3.0 — Made with ❤️ by [@thakurabhinav22](https://github.com/thakurabhinav22)
