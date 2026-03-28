@@ -1,68 +1,127 @@
-/*
- * SPDX-FileCopyrightText: no
- * SPDX-License-Identifier: CC0-1.0
- */
-
-/*------------------------ Global Fonts -------------------*/
-*{
-    font: 12px "Jetbrains Mono";
+* {
+    font: 12px "JetBrains Mono";
 }
 
-/*------------------------ Bottom Buttons -----------------*/
-
-#debugButton, #aboutButton {
-    border-style: solid;
-    font: bold 12px;
-    padding: 8px;
+/*------------------------ Main Window ------------------------*/
+#mainApp {
+    background-color: #F5F5F5;
 }
 
+/*------------------------ Sidebar ------------------------*/
+#sidebarApp {
+    background-color: #FFFFFF;
+    border-right: 2px solid #E0E0E0;
+}
+
+#logoApp {
+    background-color: #FFFFFF;
+    padding: 10px;
+}
+
+/*------------------------ Sidebar Steps ------------------------*/
+QListView {
+    background-color: #FFFFFF;
+    color: #333333;
+    border: none;
+    outline: none;
+}
+
+QListView::item {
+    color: #333333;
+    padding: 10px 16px;
+    border: none;
+}
+
+QListView::item:selected {
+    background-color: #F0FFF0;
+    color: #00AA00;
+    border-left: 3px solid #00CC00;
+}
+
+QListView::item:hover {
+    background-color: #F5F5F5;
+    color: #00AA00;
+}
+
+/*------------------------ Bottom Buttons ------------------------*/
 #view-button-back,
 #view-button-next,
 #view-button-cancel {
-    background-color: #444A58;
-    border: 1px solid #1E2128;
-    border-radius: 2px;
+    background-color: #FFFFFF;
+    border: 1.5px solid #00CC00;
+    border-radius: 6px;
+    color: #333333;
     font: bold 12px;
     min-width: 4em;
-    padding: 8px;
+    padding: 8px 16px;
+}
+
+#view-button-next {
+    background-color: #00CC00;
+    color: #FFFFFF;
+    border: none;
 }
 
 #view-button-back:hover,
-#view-button-next:hover,
 #view-button-cancel:hover {
-	color: #FFFFFF;
-    background-color: #505666;
-    border-style: solid;
+    background-color: #F0FFF0;
+    border-color: #00AA00;
 }
 
-/*------------------------ Welcome Page Buttons ------------------------*/
-
-#aboutButton { 
-	qproperty-icon: url(/etc/calamares/branding/arcade/icons/about.svg);
+#view-button-next:hover {
+    background-color: #00AA00;
 }
 
-#debugButton { 
-	qproperty-icon: url(/etc/calamares/branding/arcade/icons/about.svg);
+/*------------------------ Welcome Page Text ------------------------*/
+QLabel#mainText {
+    color: #00AA00;
+    font: bold 16px;
 }
 
-#donateButton { 
-	qproperty-icon: url(/etc/calamares/branding/arcade/icons/donate.svg);
+QLabel#subText {
+    color: #555555;
+    font: 12px;
 }
 
-#supportButton {
-	qproperty-icon: url(/etc/calamares/branding/arcade/icons/fourm.svg);
+/*------------------------ Language Box ------------------------*/
+QComboBox {
+    border: 1.5px solid #CCCCCC;
+    border-radius: 6px;
+    padding: 6px;
+    background: #FFFFFF;
+    color: #333333;
+    min-width: 20em;
 }
 
-#releaseNotesButton {
-	qproperty-icon: url(/etc/calamares/branding/arcade/icons/notes.svg);
+QComboBox:hover {
+    border-color: #00CC00;
 }
 
-#knownIssuesButton {
-	qproperty-icon: url(/etc/calamares/branding/arcade/icons/issues.svg);
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 30px;
+    border-left: 1px solid #CCCCCC;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
-#debugButton,
+QComboBox::down-arrow {
+    image: url(/etc/calamares/branding/arcade/icons/go-down.svg);
+}
+
+/*------------------------ Tooltip ------------------------*/
+QToolTip {
+    border: 1px solid #00CC00;
+    border-radius: 4px;
+    background: #FFFFFF;
+    color: #333333;
+    padding: 4px;
+}
+
+/*------------------------ Welcome Buttons ------------------------*/
 #aboutButton,
+#debugButton,
 #donateButton,
 #supportButton,
 #releaseNotesButton,
@@ -70,131 +129,44 @@
     font: bold 12px;
     min-width: 2em;
     padding: 8px;
+    border: none;
+    color: #333333;
+    background: transparent;
 }
 
-#debugButton:hover,
 #aboutButton:hover,
+#debugButton:hover,
 #donateButton:hover,
 #supportButton:hover,
 #releaseNotesButton:hover,
 #knownIssuesButton:hover {
-	color: #5294E2;
-    border-style: solid;
-    border-width: 0px;
+    color: #00AA00;
 }
 
-/*------------------------ Welcome Page Text ------------------------*/
-
-/*-- Welcome to installer text --*/
-QLabel#mainText {
-	color: #5294E2;
-    font: bold 12px;
+#aboutButton {
+    qproperty-icon: url(/etc/calamares/branding/arcade/icons/about.svg);
 }
-
-/*-- Language Box --*/
-QComboBox {
-    border: 1px solid #2D303B;
-    border-radius: 2px;
-    padding: 6px;
-    min-width: 20em;
+#debugButton {
+    qproperty-icon: url(/etc/calamares/branding/arcade/icons/about.svg);
 }
-
-QComboBox:!editable, QComboBox::drop-down:editable {
-     background: #3E4350;
+#donateButton {
+    qproperty-icon: url(/etc/calamares/branding/arcade/icons/donate.svg);
 }
-/* QComboBox gets the "on" state when the popup is open */
-QComboBox:!editable:on, QComboBox::drop-down:editable:on {
-    background: #263E4350;
+#supportButton {
+    qproperty-icon: url(/etc/calamares/branding/arcade/icons/fourm.svg);
 }
-
-QComboBox::drop-down {
-    subcontrol-origin: padding;
-    subcontrol-position: top right;
-    width: 30px;
-
-    border-left-width: 1px;
-    border-left-color: #2D303B;
-    border-left-style: solid; /* just a single line */
-    border-top-right-radius: 3px; /* same radius as the QComboBox */
-    border-bottom-right-radius: 3px;
+#releaseNotesButton {
+    qproperty-icon: url(/etc/calamares/branding/arcade/icons/notes.svg);
 }
-QComboBox::down-arrow {
-    image: url(/etc/calamares/branding/arcade/icons/go-down.svg);
-}
-
-/*------------------------ Main App ------------------------*/
-
-#mainApp { 
-/*	background-color: #29353B;	*/
-}
-
-#sidebarApp {
-}
-
-#logoApp {
-	padding: 0px;
-}
-
-/*------------------------ Tooltip ------------------------*/
-
-QToolTip {
-    border: 1px solid #5294E2;
-    border-radius: 2px;
-    padding: 2px;
+#knownIssuesButton {
+    qproperty-icon: url(/etc/calamares/branding/arcade/icons/issues.svg);
 }
 
 /*------------------------ Partition Page ------------------------*/
-
-QLabel#bootInfoIcon {
-	background-color: #EFF0F1;
-    font: bold 12px;
-}
-QLabel#bootInfoLabel {
-	color: #EFF0F1;
-    font: bold 12px;
-}
-QLabel#deviceInfoIcon {
-	background-color: #EFF0F1;
-    font: bold 12px;
-}
-QLabel#deviceInfoLabel {
-	color: #EFF0F1;
-    font: bold 12px;
-}
-
-#bootInfoIcon { 
-}
-#bootInfoLable {
-}
-#deviceInfoIcon {
-}
-#defineInfoLabel {
-}
-#scrollAreaWidgetContents {
-}
-#partitionBarView {
-}
-
-#partitionLabel {
-	color: #EFF0F1;
-}
-
+QLabel#bootInfoLabel,
+QLabel#deviceInfoLabel,
+#partitionLabel,
 #partitionLabelsView {
-	color: #EFF0F1;
-}
-
-#CreatePartitionDialog {
-	color: #EFF0F1;
-}
-
-#partResizerWidget {
-	color: #EFF0F1;
-}
-
-/*------------------------ Licensing ------------------------*/
-
-#licenseItem { 
-}
-
-#licenseItemFullText {
+    color: #333333;
+    font: bold 12px;
 }
