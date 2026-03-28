@@ -6,7 +6,7 @@ xdata = pkgtype=pkg
 pkgver = 3.4.2-2
 pkgdesc = Distribution-independent installer framework
 url = https://codeberg.org/Calamares/calamares
-builddate = 1774642354
+builddate = 1774711924
 packager = Unknown Packager
 size = 10171841
 arch = x86_64

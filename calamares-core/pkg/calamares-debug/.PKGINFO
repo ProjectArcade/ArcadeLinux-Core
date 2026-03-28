@@ -6,7 +6,7 @@ xdata = pkgtype=debug
 pkgver = 3.4.2-2
 pkgdesc = Detached debugging symbols for calamares
 url = https://codeberg.org/Calamares/calamares
-builddate = 1774642354
+builddate = 1774711924
 packager = Unknown Packager
 size = 179645737
 arch = x86_64
