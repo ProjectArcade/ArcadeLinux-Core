@@ -1,7 +1,26 @@
-*.pkg.tar.zst
-*.pkg.tar.xz
+# Build output
 build/
 dist/
+
+# Package files
+*.pkg.tar.zst
+*.pkg.tar.xz
+
+# Python
 *.pyc
 __pycache__/
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Calamares runtime
+/src/
+/pkg/
+*.tar.gz
