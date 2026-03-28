@@ -2,7 +2,7 @@
 componentName: arcade
 
 welcomeStyleCalamares:   false
-welcomeExpandingLogo:   true
+welcomeExpandingLogo:   false
 windowExpanding:    noexpand
 windowSize: 800px,600px
 windowPlacement: center
@@ -24,7 +24,7 @@ strings:
 images:
     productIcon:         "logo.png"
     productLogo:         "logo.png"
-    productWelcome:      "welcome.png"
+    productWelcome: "welcome.png"
 
 style:
    sidebarBackground:    "#1A1A1A"
