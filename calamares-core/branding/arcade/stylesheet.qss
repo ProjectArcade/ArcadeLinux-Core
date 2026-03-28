@@ -2,45 +2,53 @@
     font: 12px "JetBrains Mono";
 }
 
-/*------------------------ Main Window ------------------------*/
-#mainApp {
-    background-color: #F5F5F5;
-}
-
 /*------------------------ Sidebar ------------------------*/
 #sidebarApp {
-    background-color: #FFFFFF;
-    border-right: 2px solid #E0E0E0;
+    background-color: #1A1A1A;
+    border-right: 1px solid #333333;
 }
 
 #logoApp {
-    background-color: #FFFFFF;
+    background-color: #1A1A1A;
     padding: 10px;
 }
 
-/*------------------------ Sidebar Steps ------------------------*/
+#logoApp QLabel {
+    background-color: #1A1A1A;
+}
+
 QListView {
-    background-color: #FFFFFF;
-    color: #333333;
+    background-color: #1A1A1A;
+    color: #FFFFFF;
     border: none;
     outline: none;
 }
 
 QListView::item {
-    color: #333333;
+    color: #AAAAAA;
     padding: 10px 16px;
     border: none;
+    background-color: #1A1A1A;
 }
 
 QListView::item:selected {
-    background-color: #F0FFF0;
-    color: #00AA00;
+    background-color: #1A1A1A;
+    color: #00FF00;
     border-left: 3px solid #00CC00;
 }
 
 QListView::item:hover {
-    background-color: #F5F5F5;
-    color: #00AA00;
+    background-color: #252525;
+    color: #FFFFFF;
+}
+
+/*------------------------ Main Content ------------------------*/
+#mainApp {
+    background-color: #FFFFFF;
+}
+
+QStackedWidget {
+    background-color: #FFFFFF;
 }
 
 /*------------------------ Bottom Buttons ------------------------*/
@@ -72,7 +80,7 @@ QListView::item:hover {
     background-color: #00AA00;
 }
 
-/*------------------------ Welcome Page Text ------------------------*/
+/*------------------------ Welcome Page ------------------------*/
 QLabel#mainText {
     color: #00AA00;
     font: bold 16px;
@@ -80,7 +88,6 @@ QLabel#mainText {
 
 QLabel#subText {
     color: #555555;
-    font: 12px;
 }
 
 /*------------------------ Language Box ------------------------*/
@@ -143,24 +150,12 @@ QToolTip {
     color: #00AA00;
 }
 
-#aboutButton {
-    qproperty-icon: url(/etc/calamares/branding/arcade/icons/about.svg);
-}
-#debugButton {
-    qproperty-icon: url(/etc/calamares/branding/arcade/icons/about.svg);
-}
-#donateButton {
-    qproperty-icon: url(/etc/calamares/branding/arcade/icons/donate.svg);
-}
-#supportButton {
-    qproperty-icon: url(/etc/calamares/branding/arcade/icons/fourm.svg);
-}
-#releaseNotesButton {
-    qproperty-icon: url(/etc/calamares/branding/arcade/icons/notes.svg);
-}
-#knownIssuesButton {
-    qproperty-icon: url(/etc/calamares/branding/arcade/icons/issues.svg);
-}
+#aboutButton { qproperty-icon: url(/etc/calamares/branding/arcade/icons/about.svg); }
+#debugButton { qproperty-icon: url(/etc/calamares/branding/arcade/icons/about.svg); }
+#donateButton { qproperty-icon: url(/etc/calamares/branding/arcade/icons/donate.svg); }
+#supportButton { qproperty-icon: url(/etc/calamares/branding/arcade/icons/fourm.svg); }
+#releaseNotesButton { qproperty-icon: url(/etc/calamares/branding/arcade/icons/notes.svg); }
+#knownIssuesButton { qproperty-icon: url(/etc/calamares/branding/arcade/icons/issues.svg); }
 
 /*------------------------ Partition Page ------------------------*/
 QLabel#bootInfoLabel,
