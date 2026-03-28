@@ -12,9 +12,11 @@
 
 ---
 
-## Calamares Installer
 
-Custom Calamares installer — forked from [ArchCraft's Calamares](https://github.com/archcraft-os/archcraft-calamares) and fully rebranded for Arcade Linux.
+## Credits & Attribution
+
+- Calamares configuration forked from [ArchCraft](https://github.com/archcraft-os/core-packages) by [adi1090x](https://github.com/adi1090x), licensed under [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html)
+- Built on [Calamares](https://calamares.io) — the universal installer framework
 
 <div align="center">
 
