@@ -1,78 +1,20 @@
-<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-
-  <defs>
-    <!-- Dark background -->
-    <radialGradient id="bg" cx="50%" cy="40%" r="80%">
-      <stop offset="0%" stop-color="#2f3242"/>
-      <stop offset="100%" stop-color="#1c1e2b"/>
-    </radialGradient>
-
-    <!-- Folder body -->
-    <linearGradient id="folder" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#3b82f6"/>
-      <stop offset="100%" stop-color="#1e40af"/>
-    </linearGradient>
-
-    <!-- Folder tab -->
-    <linearGradient id="tab" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#60a5fa"/>
-      <stop offset="100%" stop-color="#2563eb"/>
-    </linearGradient>
-
-    <!-- Highlight glow -->
-    <linearGradient id="highlight" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-
-    <!-- Shadow -->
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="18"/>
-      <feOffset dx="0" dy="10"/>
-      <feComponentTransfer>
-        <feFuncA type="linear" slope="0.35"/>
-      </feComponentTransfer>
-      <feMerge>
-        <feMergeNode/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-
-  </defs>
-
-  <!-- Background -->
-  <rect x="32" y="32" width="960" height="960" rx="240" fill="url(#bg)"/>
-
-  <!-- Folder -->
-  <g filter="url(#shadow)">
-
-    <!-- Top tab -->
-    <path d="
-      M220 360
-      Q220 300 280 300
-      L420 300
-      Q460 300 490 330
-      L540 380
-      L220 380
-      Z"
-      fill="url(#tab)"/>
-
-    <!-- Main folder -->
-    <path d="
-      M200 380
-      Q200 340 240 340
-      L784 340
-      Q824 340 824 380
-      L824 720
-      Q824 780 760 780
-      L264 780
-      Q200 780 200 720
-      Z"
-      fill="url(#folder)"/>
-
-    <!-- Soft highlight -->
-    <rect x="220" y="400" width="560" height="50" rx="25" fill="url(#highlight)"/>
-
-  </g>
-
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="960" viewBox="0 0 960 960" fill="none">
+<path d="M740 0H220C98.4974 0 0 98.4974 0 220V740C0 861.503 98.4974 960 220 960H740C861.503 960 960 861.503 960 740V220C960 98.4974 861.503 0 740 0Z" fill="url(#paint0_radial_8_153)"/>
+<path d="M772 249H443.5L370.5 173H188C147.85 173 115 207.2 115 249V401H845V325C845 283.2 812.15 249 772 249Z" fill="#7FB1FF"/>
+<path d="M772 249H188C147.85 249 115 283.264 115 325.143V705.857C115 747.736 147.85 782 188 782H772C812.15 782 845 747.736 845 705.857V325.143C845 283.264 812.15 249 772 249Z" fill="url(#paint1_linear_8_153)"/>
+<line x1="14.5" y1="-14.5" x2="560.72" y2="-14.5" transform="matrix(0.999976 0.00694526 -0.00716545 0.999974 170.774 352.865)" stroke="url(#paint2_linear_8_153)" stroke-width="29" stroke-linecap="round"/>
+<defs>
+<radialGradient id="paint0_radial_8_153" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(480 384) scale(768)">
+<stop stop-color="#2F3242"/>
+<stop offset="1" stop-color="#1C1E2B"/>
+</radialGradient>
+<linearGradient id="paint1_linear_8_153" x1="-91.9884" y1="72.2219" x2="1038.59" y2="975.552" gradientUnits="userSpaceOnUse">
+<stop stop-color="#80B8FF"/>
+<stop offset="1" stop-color="#3274FF"/>
+</linearGradient>
+<linearGradient id="paint2_linear_8_153" x1="0" y1="0.5" x2="575.22" y2="0.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#4E8BFF"/>
+<stop offset="1" stop-color="#6DA7FF"/>
+</linearGradient>
+</defs>
 </svg>
