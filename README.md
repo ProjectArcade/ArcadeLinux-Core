@@ -6,24 +6,23 @@
 
 ## Projects
 
-| Project | Description |
-|---|---|
-| `calamares-core` | Custom Calamares GUI installer with Arcade Linux branding |
+| Project              | Description                                                 |
+| -------------------- | ----------------------------------------------------------- |
+| `calamares-core`     | Custom Calamares GUI installer with Arcade Linux branding   |
+| `arcade-splash`      | KDE Plasma splash screen with animations and dynamic quotes |
+| `arcade-icons-theme` | Custom icon theme for Arcade Linux                          |
 
 ---
 
-
 ## Credits & Attribution
 
-- Calamares configuration forked from [ArchCraft](https://github.com/archcraft-os/core-packages) by [adi1090x](https://github.com/adi1090x), licensed under [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html)
-- Built on [Calamares](https://calamares.io) — the universal installer framework
+* Calamares configuration forked from [ArchCraft](https://github.com/archcraft-os/core-packages) by [adi1090x](https://github.com/adi1090x), licensed under [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html)
+* Built on [Calamares](https://calamares.io) — the universal installer framework
 
 <div align="center">
 
 <img src="./calamares-core/screeshotshots/arcade_welcome.png" alt="Welcome" width="550"/>
 <p><em>Welcome</em></p>
-
-
 
 </div>
 
@@ -71,6 +70,39 @@ sudo calamares -d
 
 ---
 
+## Install Arcade Splash (KDE)
+
+
+```bash
+mkdir -p ~/.local/share/plasma/look-and-feel/arcade-splash
+cp -r * ~/.local/share/plasma/look-and-feel/arcade-splash/
+```
+
+Enable via System Settings → Splash Screen.
+
+---
+
+## Install Arcade Icons Theme
+
+```bash
+# Remove existing version
+rm -rf ~/.local/share/icons/Arcade-icons
+
+# Symlink for development
+ln -s ~/Desktop/ProjectArcade/ArcadeLinux-Core/Arcade-icons-theme/Arcade-icons \
+~/.local/share/icons/Arcade-icons
+```
+
+Or copy install:
+
+```bash
+cp -r Arcade-icons-theme/Arcade-icons ~/.local/share/icons/
+```
+
+Enable via System Settings → Icons.
+
+---
+
 ## How to Sync to Arcade-OS ISO
 
 After making changes, run this to sync everything:
@@ -109,6 +141,7 @@ sudo mkarchiso -v -w work/ -o out/ .
 ## How to Customize Branding
 
 **Colors** — edit `calamares-core/branding/arcade/branding.desc`:
+
 ```yaml
 style:
    sidebarBackground:    "#1A1A1A"
@@ -123,7 +156,7 @@ style:
 
 **Slideshow** — add images to `branding/arcade/slides/` as `1.png`, `2.png`, etc.
 
-**Stylesheet** — edit `branding/arcade/stylesheet.qss` for buttons, fonts, layout.
+**Stylesheet** — edit `branding/arcade/stylesheet.qss`.
 
 ---
 
@@ -137,9 +170,9 @@ Welcome → Location → Keyboard → Partition → Users → Summary → Instal
 
 ## Known Issues
 
-- Animated GIF not supported in Calamares welcome page — use static PNG
-- `bootloader-config` module does not exist in Calamares 3.4.2 — do not add to sequence
-- "No partitions" error is expected when testing on desktop without a virtual disk
+* Animated GIF not supported in Calamares welcome page
+* `bootloader-config` module does not exist in Calamares 3.4.2
+* Disk warnings are expected when testing without a real disk
 
 ---
 
