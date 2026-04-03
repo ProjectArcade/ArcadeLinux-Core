@@ -6,88 +6,129 @@ Rectangle {
     color: "#000000"
     property int stage
 
-    // Current hour
     property int hour: new Date().getHours()
 
-    // Greeting
+    property string timePeriod: {
+        if (hour >= 0 && hour < 5)
+            return "midnight"
+        else if (hour >= 5 && hour < 12)
+            return "day"
+        else if (hour >= 12 && hour < 17)
+            return "afternoon"
+        else if (hour >= 17 && hour < 21)
+            return "evening"
+        else
+            return "night"
+    }
+
+    property var midnightMessages: [
+        "Welcome, Night Owl",
+        "Midnight Mode Activated",
+        "The stars are still awake with you",
+        "Quiet hours, powerful focus",
+        "Moonlit session starts now"
+    ]
+
+    property var dayMessages: [
+        "Welcome to a New Day",
+        "Today is your launch window",
+        "Fresh light, fresh momentum",
+        "Daytime energy is online",
+        "A bright start for bold plans"
+    ]
+
+    property var afternoonMessages: [
+        "Afternoon Momentum Check",
+        "Midday grind, keep it smooth",
+        "Your progress bar is moving",
+        "Power through the afternoon",
+        "Strong focus for the second half"
+    ]
+
+    property var eveningMessages: [
+        "Evening Flow Begins",
+        "Sunset hours, steady progress",
+        "Golden hour for clean execution",
+        "Evening session now live",
+        "Close the day with a win"
+    ]
+
+    property var nightMessages: [
+        "Welcome, Night Owl",
+        "Tonight's moon looks beautiful",
+        "Night shift, calm and focused",
+        "The city sleeps, you create",
+        "Deep-night focus mode"
+    ]
+
+    property var midnightEvents: [
+        "Tonight's moon looks beautiful.",
+        "System event: silence and clarity enabled.",
+        "Deep work window is now open.",
+        "Low noise, high creativity.",
+        "This calm hour belongs to you."
+    ]
+
+    property var dayEvents: [
+        "Today's event: start strong and stay curious.",
+        "Morning light is perfect for fresh ideas.",
+        "Your daily quest begins now.",
+        "Make today meaningful, one step at a time.",
+        "A clear day is a great day to build."
+    ]
+
+    property var afternoonEvents: [
+        "Today's event: keep the momentum alive.",
+        "Afternoon focus can change everything.",
+        "Progress checkpoint reached — continue forward.",
+        "Steady effort, strong results.",
+        "Halfway through, still full power."
+    ]
+
+    property var eveningEvents: [
+        "Today's event: finish with intention.",
+        "Sunset is your reminder to end strong.",
+        "Wrap up with one more meaningful win.",
+        "Evening rhythm, better decisions.",
+        "Refine today, prepare tomorrow."
+    ]
+
+    property var nightEvents: [
+        "Tonight's moon looks beautiful.",
+        "Today's event: ideas shine after dark.",
+        "Night focus is a different kind of magic.",
+        "The quiet night is your creative ally.",
+        "Own the night, one calm step at a time."
+    ]
+
+    // Lock quote selection at load time using a seeded index
+    property int quoteIndex: Math.floor(Math.random() * 5)
+
     property string greeting: {
-        if (hour < 12)
-            return "Good morning"
-        else if (hour < 17)
-            return "Good afternoon"
-        else if (hour < 21)
-            return "Good evening"
+        if (timePeriod === "midnight")
+            return midnightMessages[quoteIndex]
+        else if (timePeriod === "day")
+            return dayMessages[quoteIndex]
+        else if (timePeriod === "afternoon")
+            return afternoonMessages[quoteIndex]
+        else if (timePeriod === "evening")
+            return eveningMessages[quoteIndex]
         else
-            return "It's late"
+            return nightMessages[quoteIndex]
     }
 
-    // Quote pools
-    property var morningQuotes: [
-        "A new day. A new chance to level up.",
-        "Wake up. Your future is waiting.",
-        "Sunlight means it's time to rise stronger.",
-        "Start sharp. Stay unstoppable.",
-        "Every morning is a fresh respawn.",
-        "Discipline begins before the world wakes.",
-        "Today is yours—claim it.",
-        "No delays. Begin now.",
-        "The early grind builds empires.",
-        "Reset. Refocus. Rise."
-    ]
-
-    property var afternoonQuotes: [
-        "Stay locked in. You're halfway there.",
-        "Focus beats talent every time.",
-        "Keep pushing. Momentum matters.",
-        "No distractions. Just execution.",
-        "This is where most people quit. Don’t.",
-        "Stay consistent. Stay dangerous.",
-        "Progress is built right now.",
-        "One step more. Then another.",
-        "You’re in the middle—keep moving.",
-        "Pressure creates precision."
-    ]
-
-    property var eveningQuotes: [
-        "The day isn’t over yet.",
-        "Finish strong. Always.",
-        "Evenings decide winners.",
-        "Push a little more before rest.",
-        "Consistency beats intensity.",
-        "Close the day with progress.",
-        "What you do now matters tomorrow.",
-        "Stay focused. No wasted hours.",
-        "Refine. Improve. Repeat.",
-        "End the day better than you started."
-    ]
-
-    property var nightQuotes: [
-        "Welcome back. The grind never left you.",
-        "It's late… but legends are built now.",
-        "The moon is watching. Don’t waste the night.",
-        "Silence the world. Focus on your path.",
-        "Night mode: discipline only.",
-        "While others sleep, you build.",
-        "Dark hours. Bright future.",
-        "No shortcuts. Only progress.",
-        "Tonight decides tomorrow.",
-        "Stay relentless."
-    ]
-
-    // Select active quote pool
-    property var activeQuotes: {
-        if (hour < 12)
-            return morningQuotes
-        else if (hour < 17)
-            return afternoonQuotes
-        else if (hour < 21)
-            return eveningQuotes
+    property string selectedQuote: {
+        if (timePeriod === "midnight")
+            return midnightEvents[quoteIndex]
+        else if (timePeriod === "day")
+            return dayEvents[quoteIndex]
+        else if (timePeriod === "afternoon")
+            return afternoonEvents[quoteIndex]
+        else if (timePeriod === "evening")
+            return eveningEvents[quoteIndex]
         else
-            return nightQuotes
+            return nightEvents[quoteIndex]
     }
-
-    // Random quote
-    property string selectedQuote: activeQuotes[Math.floor(Math.random() * activeQuotes.length)]
 
     onStageChanged: {
         if (stage == 1) {
@@ -109,7 +150,7 @@ Rectangle {
             id: units
             text: "M"
             property int gridUnit: boundingRect.height
-            property int smallSpacing: Math.max(2, gridUnit/4)
+            property int smallSpacing: Math.max(2, gridUnit / 4)
         }
 
         Rectangle {
@@ -146,19 +187,18 @@ Rectangle {
             }
         }
 
-        // Bottom text block
         Column {
-            spacing: units.smallSpacing
+            spacing: units.smallSpacing * 2
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: units.gridUnit * 2
+            anchors.bottomMargin: units.gridUnit * 2.5
 
             Text {
                 text: root.greeting
                 color: "#ffffff"
                 font.pixelSize: units.gridUnit * 1.4
                 font.bold: true
-                opacity: 0.9
+                opacity: 0.95
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
             }
