@@ -284,7 +284,12 @@ if command -v plasma-apply-colorscheme >/dev/null 2>&1; then
   plasma-apply-colorscheme ArcadeDark
 fi
 kwriteconfig6 --file kdeglobals --group General --key ColorScheme "ArcadeDark"
-kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle "kvantum-dark"
+if command -v kvantummanager >/dev/null 2>&1; then
+  kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle "kvantum-dark"
+else
+  kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle "Breeze"
+  echo "Kvantum not found. Falling back to Breeze widget style."
+fi
 
 # ── STEP 8: Set SF Pro as system font ────────────────────────────
 if fc-list | grep -qi "SF Pro"; then

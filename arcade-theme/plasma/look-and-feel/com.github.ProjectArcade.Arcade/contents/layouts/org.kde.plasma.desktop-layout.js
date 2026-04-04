@@ -9,7 +9,9 @@ topPanel.hiding = "none"
 topPanel.lengthMode = "fill"
 
 // LEFT SIDE
-topPanel.addWidget("AndromedaLauncher")
+var kickoff = topPanel.addWidget("org.kde.plasma.kickoff")
+kickoff.currentConfigGroup = ["Shortcuts"]
+kickoff.writeConfig("global", "Alt+F1")
 topPanel.addWidget("org.kde.plasma.appmenu")
 
 // CENTER - clock pinned to center
@@ -25,12 +27,12 @@ clock.writeConfig("fontSize", "11")
 topPanel.addWidget("org.kde.plasma.panelspacer")
 
 // RIGHT SIDE
-var media = topPanel.addWidget("org.kde.plasma.mediacontroller")
 
 topPanel.addWidget("org.kde.plasma.marginsseparator")
 topPanel.addWidget("org.kde.plasma.systemtray")
 topPanel.addWidget("org.kde.plasma.marginsseparator")
 topPanel.addWidget("org.kde.plasma.showdesktop")
+topPanel.opacity = "translucent"
 
 // ─── BOTTOM FLOATING DOCK ───────────────────────────────────────
 var dock = new Panel
@@ -44,14 +46,14 @@ dock.alignment = "center"
 var tasks = dock.addWidget("org.kde.plasma.icontasks")
 tasks.currentConfigGroup = ["General"]
 tasks.writeConfig("launchers", [
-    "applications:org.kde.dolphin.desktop",
+    "preferred://filemanager",
     "applications:org.kde.konsole.desktop",
     "preferred://browser",
     "applications:org.kde.plasma-systemmonitor.desktop",
     "applications:systemsettings.desktop",
 ])
-tasks.writeConfig("iconSize", "3")
-tasks.writeConfig("fill", "false")
 
-dock.addWidget("org.kde.plasma.marginsseparator")
+dock.opacity = "translucent"
+
+// dock.addWidget("org.kde.plasma.marginsseparator")
 // dock.addWidget("org.kde.plasma.trash")

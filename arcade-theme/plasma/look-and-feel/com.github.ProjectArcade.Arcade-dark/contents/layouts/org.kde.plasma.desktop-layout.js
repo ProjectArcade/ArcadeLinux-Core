@@ -39,7 +39,7 @@ taskBar.writeConfig("launchers", [
     "preferred://filemanager",
     "preferred://browser",
     "applications:org.kde.konsole.desktop",
-    "applications:systemsettings.desktop",
+    "applications:org.kde.systemsettings.desktop"
 ])
 panel.addWidget("org.kde.plasma.appmenu")
 panel.addWidget("org.kde.plasma.panelspacer")
