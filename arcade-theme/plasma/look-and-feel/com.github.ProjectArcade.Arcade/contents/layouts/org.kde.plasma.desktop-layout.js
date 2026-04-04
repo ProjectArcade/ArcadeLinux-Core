@@ -1,50 +1,54 @@
-var panel = new Panel
-var panelScreen = panel.screen
+// Arcade Linux 
 
-// No need to set panel.location as ShellCorona::addPanel will automatically pick one available edge
+// ─── TOP MENU BAR ───────────────────────────────────────────────
+var topPanel = new Panel
+topPanel.location = "top"
+topPanel.height = Math.round(gridUnit * 1.8)
+topPanel.floating = true
+topPanel.hiding = "none"
+topPanel.lengthMode = "fill"
 
-// For an Icons-Only Task Manager on the bottom, *3 is too much, *2 is too little
-// Round down to next highest even number since the Panel size widget only displays
-// even numbers
-panel.height = 2 * Math.floor(gridUnit * 2.5 / 2)
-panel.location = "top"
-
-// Restrict horizontal panel to a maximum size of a 21:9 monitor
-const maximumAspectRatio = 21/9;
-if (panel.formFactor === "horizontal") {
-    const geo = screenGeometry(panelScreen);
-    const maximumWidth = Math.ceil(geo.height * maximumAspectRatio);
-
-    if (geo.width > maximumWidth) {
-        panel.alignment = "center";
-        panel.minimumLength = maximumWidth;
-        panel.maximumLength = maximumWidth;
-    }
-}
-
-var kickoff = panel.addWidget("org.kde.plasma.kickoff")
+// App launcher
+var kickoff = topPanel.addWidget("org.kde.plasma.kickoff")
 kickoff.currentConfigGroup = ["Shortcuts"]
 kickoff.writeConfig("global", "Alt+F1")
 
-var bpanel = new Panel
-bpanel.location = "bottom"
-bpanel.lengthMode = "fit"
-bpanel.hiding = "dodgewindows"
-bpanel.height = 64
+// App menu
+topPanel.addWidget("org.kde.plasma.appmenu")
 
-let taskBar = bpanel.addWidget("org.kde.plasma.icontasks")
-taskBar.currentConfigGroup = ["General"]
-taskBar.writeConfig("launchers", [
-    "preferred://filemanager",
-    "preferred://browser",
+// Spacer
+topPanel.addWidget("org.kde.plasma.panelspacer")
+
+// System tray
+topPanel.addWidget("org.kde.plasma.systemtray")
+
+topPanel.addWidget("org.kde.plasma.marginsseparator")
+
+// Clock
+var clock = topPanel.addWidget("org.kde.plasma.digitalclock")
+clock.currentConfigGroup = ["Appearance"]
+clock.writeConfig("showDate", "false")
+clock.writeConfig("showSeconds", "false")
+
+// Show desktop
+topPanel.addWidget("org.kde.plasma.showdesktop")
+
+// ─── BOTTOM FLOATING DOCK ───────────────────────────────────────
+var dock = new Panel
+dock.location = "bottom"
+dock.height = 64
+dock.floating = true
+dock.hiding = "none"
+dock.lengthMode = "fit"
+dock.alignment = "center"
+
+var tasks = dock.addWidget("org.kde.plasma.icontasks")
+tasks.currentConfigGroup = ["General"]
+tasks.writeConfig("launchers", [
+    "applications:org.kde.dolphin.desktop",
     "applications:org.kde.konsole.desktop",
+    "applications:brave-browser.desktop",
     "applications:systemsettings.desktop",
 ])
-panel.addWidget("org.kde.plasma.appmenu")
-panel.addWidget("org.kde.plasma.panelspacer")
-panel.addWidget("org.kde.plasma.marginsseparator")
-panel.addWidget("org.kde.plasma.systemtray")
-panel.addWidget("org.kde.plasma.marginsseparator")
-panel.addWidget("org.kde.plasma.digitalclock")
-panel.addWidget("org.kde.plasma.showdesktop")
-
+tasks.writeConfig("iconSize", "3")
+tasks.writeConfig("fill", "false")

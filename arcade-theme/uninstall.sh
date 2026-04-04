@@ -7,6 +7,7 @@ if [ "$UID" -eq "$ROOT_UID" ]; then
   AURORAE_DIR="/usr/share/aurorae/themes"
   SCHEMES_DIR="/usr/share/color-schemes"
   PLASMA_DIR="/usr/share/plasma/desktoptheme"
+  LAYOUT_DIR="/usr/share/plasma/layout-templates"
   LOOKFEEL_DIR="/usr/share/plasma/look-and-feel"
   KVANTUM_DIR="/usr/share/Kvantum"
   WALLPAPER_DIR="/usr/share/wallpapers"
@@ -15,6 +16,7 @@ else
   AURORAE_DIR="$HOME/.local/share/aurorae/themes"
   SCHEMES_DIR="$HOME/.local/share/color-schemes"
   PLASMA_DIR="$HOME/.local/share/plasma/desktoptheme"
+  LAYOUT_DIR="$HOME/.local/share/plasma/layout-templates"
   LOOKFEEL_DIR="$HOME/.local/share/plasma/look-and-feel"
   KVANTUM_DIR="$HOME/.config/Kvantum"
   WALLPAPER_DIR="$HOME/.local/share/wallpapers"
@@ -22,7 +24,6 @@ else
 fi
 
 THEME_NAME=Arcade
-LATTE_DIR="$HOME/.config/latte"
 
 uninstall() {
   local name=${1}
@@ -45,8 +46,8 @@ uninstall() {
   # Wallpapers
   [[ -d "${WALLPAPER_DIR}/${name}" ]] && rm -rfv "${WALLPAPER_DIR}/${name}"*
 
-  # Latte dock layout
-  [[ -f "${LATTE_DIR}/${name}.layout.latte" ]] && rm -rfv "${LATTE_DIR}/${name}.layout.latte"
+  # Plasma layout template
+  [[ -d "${LAYOUT_DIR}/org.github.desktop.WhiteSurPanel" ]] && rm -rfv "${LAYOUT_DIR}/org.github.desktop.WhiteSurPanel"
 
   # Arcade-icons
   [[ -d "${ICONS_DIR}/Arcade-icons" ]] && rm -rfv "${ICONS_DIR}/Arcade-icons"
@@ -61,7 +62,11 @@ uninstall "${THEME_NAME}"
 
 # Reset to default Breeze theme
 echo "Resetting to default Breeze theme..."
-lookandfeeltool --apply org.kde.breeze.desktop
+if command -v plasma-apply-lookandfeel >/dev/null 2>&1; then
+  plasma-apply-lookandfeel --apply org.kde.breeze.desktop --resetLayout
+else
+  lookandfeeltool --apply org.kde.breeze.desktop
+fi
 
 # Reset plasma layout
 rm -f ~/.config/plasma-org.kde.plasma.desktop-appletsrc
