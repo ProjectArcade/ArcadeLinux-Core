@@ -1,4 +1,4 @@
-// Arcade Linux 
+// Arcade Linux - macOS-like Desktop Layout
 
 // ─── TOP MENU BAR ───────────────────────────────────────────────
 var topPanel = new Panel

@@ -3,7 +3,6 @@
 ROOT_UID=0
 CORE_REPO="https://github.com/ProjectArcade/ArcadeLinux-Core"
 
-# Destination directory
 if [ "$UID" -eq "$ROOT_UID" ]; then
   AURORAE_DIR="/usr/share/aurorae/themes"
   SCHEMES_DIR="/usr/share/color-schemes"
@@ -25,7 +24,6 @@ else
 fi
 
 SRC_DIR=$(cd $(dirname $0) && pwd)
-
 THEME_NAME=Arcade
 
 COLOR_VARIANTS=('' '-dark')
@@ -64,6 +62,12 @@ install_arcade_icons() {
   else
     echo "Arcade-icons already installed, skipping."
   fi
+  # Fix missing trash icon names
+  local ICON_PLACES="${ICONS_DIR}/Arcade-icons/places/scalable"
+  [[ -f "${ICON_PLACES}/user-trash.svg" ]] && cp "${ICON_PLACES}/user-trash.svg" "${ICON_PLACES}/trash.svg"
+  [[ -f "${ICON_PLACES}/user-trash.svg" ]] && cp "${ICON_PLACES}/user-trash.svg" "${ICON_PLACES}/trashcan.svg"
+  [[ -f "${ICON_PLACES}/user-trash-full.svg" ]] && cp "${ICON_PLACES}/user-trash-full.svg" "${ICON_PLACES}/trashcan-full.svg"
+  gtk-update-icon-cache "${ICONS_DIR}/Arcade-icons/" 2>/dev/null || true
 }
 
 install_arcade_splash() {
@@ -82,9 +86,6 @@ install_arcade_splash() {
 install() {
   local name="${1}"
   local color="${2}"
-
-  [[ "${color}" == '-dark' ]] && local ELSE_COLOR='Dark'
-  [[ "${color}" == '-light' ]] && local ELSE_COLOR='Light'
 
   [[ -d "${KVANTUM_DIR}/${name}" ]] && rm -rf "${KVANTUM_DIR}/${name}"
   [[ -d "${WALLPAPER_DIR}/${name}" ]] && rm -rf "${WALLPAPER_DIR}/${name}"*
@@ -130,7 +131,6 @@ install_aurorae() {
 
   cp -r "${SRC_DIR}/aurorae/main${window}/${name}${color}${window}${scale}"          "${AURORAE_THEME}"
   cp -r "${SRC_DIR}/aurorae/common/assets${color}/"*.svg                             "${AURORAE_THEME}"
-
   cp -r "${SRC_DIR}/aurorae/"{metadata.desktop,metadata.json}                        "${AURORAE_THEME}"
   cp -r "${SRC_DIR}/aurorae/main${window}/${name}${color}${window}rc"                "${AURORAE_THEME}/${name}${color}${window}${scale}rc"
 
@@ -216,15 +216,16 @@ while [[ "$#" -gt 0 ]]; do
   esac
 done
 
+# ── STEP 1: Remove stale themes ──────────────────────────────────
 echo -e "Installing '${THEME_NAME} kde themes'..."
-# Remove any stale splash themes
 rm -rf "${LOOKFEEL_DIR}/arcade.splash"
 rm -rf "${LOOKFEEL_DIR}/ArcadeSplash"
 
-# Install Arcade-specific dependencies first
+# ── STEP 2: Install icons and splash ─────────────────────────────
 install_arcade_icons
 install_arcade_splash
 
+# ── STEP 3: Install theme files ──────────────────────────────────
 for color in "${colors[@]:-${COLOR_VARIANTS[@]}}"; do
   install "${name:-${THEME_NAME}}" "${color}"
 done
@@ -243,39 +244,56 @@ done
 
 echo -e "Install finished..."
 
-# Rebuild KDE cache for newly installed packages
+# ── STEP 4: Rebuild KDE cache ────────────────────────────────────
 if command -v kbuildsycoca6 >/dev/null 2>&1; then
   kbuildsycoca6 >/dev/null 2>&1 || true
 elif command -v kbuildsycoca5 >/dev/null 2>&1; then
   kbuildsycoca5 >/dev/null 2>&1 || true
 fi
 
-# Apply Arcade dark global theme using Plasma-native tool
-echo "Applying Arcade dark theme..."
+# ── STEP 5: Apply global theme ───────────────────────────────────
+echo "Applying Arcade theme..."
 if command -v plasma-apply-lookandfeel >/dev/null 2>&1; then
   plasma-apply-lookandfeel --apply com.github.ProjectArcade.Arcade
 else
   lookandfeeltool --apply com.github.ProjectArcade.Arcade
 fi
 
-# Apply dark color scheme explicitly
+# ── STEP 6: Apply color scheme and widget style ──────────────────
 if command -v plasma-apply-colorscheme >/dev/null 2>&1; then
   plasma-apply-colorscheme ArcadeDark
 fi
+kwriteconfig6 --file kdeglobals --group General --key ColorScheme "ArcadeDark"
+kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle "kvantum-dark"
 
-# Apply installed wallpaper from this theme package
+# ── STEP 7: Set icon theme ───────────────────────────────────────
+kwriteconfig6 --file kdeglobals --group Icons --key Theme "Arcade-icons"
+
+# ── STEP 8: Enable KWin blur ─────────────────────────────────────
+kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled true
+kwriteconfig6 --file kwinrc --group Effect-blur --key BlurStrength 10
+qdbus6 org.kde.KWin /KWin reconfigure 2>/dev/null || true
+
+# ── STEP 9: Reset plasma layout ──────────────────────────────────
+rm -f ~/.config/plasma-org.kde.plasma.desktop-appletsrc
+
+# ── STEP 10: Set panel opacity ───────────────────────────────────
+for panel_id in $(grep -o "Panel [0-9]*\]" ~/.config/plasmashellrc | grep -o "[0-9]*" | sort -u); do
+  kwriteconfig6 --file plasmashellrc --group "PlasmaViews" --group "Panel ${panel_id}" --key "opacityMode" "3"
+  kwriteconfig6 --file plasmashellrc --group "PlasmaViews" --group "Panel ${panel_id}" --key "floating" "1"
+done
+
+# ── STEP 11: Restart plasmashell ─────────────────────────────────
+plasmashell --replace &> /dev/null &
+sleep 5
+
+# ── STEP 12: Apply wallpaper AFTER plasmashell starts ────────────
 WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}-dark/contents/images/3840x2160.jpg"
-  [[ ! -f "${WALLPAPER_IMAGE}" ]] && WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}/contents/images/3840x2160.jpg"
-if [[ ! -f "${WALLPAPER_IMAGE}" ]]; then
-  WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}/contents/images_dark/3840x2160.jpg"
-fi
-
+[[ ! -f "${WALLPAPER_IMAGE}" ]] && WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}/contents/images/3840x2160.jpg"
+[[ ! -f "${WALLPAPER_IMAGE}" ]] && WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}/contents/images_dark/3840x2160.jpg"
 if command -v plasma-apply-wallpaperimage >/dev/null 2>&1 && [[ -f "${WALLPAPER_IMAGE}" ]]; then
   plasma-apply-wallpaperimage "${WALLPAPER_IMAGE}"
+  echo "Wallpaper applied: ${WALLPAPER_IMAGE}"
 fi
 
-echo "Arcade theme applied."
-
-# Reset and reapply plasma layout
-rm -f ~/.config/plasma-org.kde.plasma.desktop-appletsrc
-plasmashell --replace &> /dev/null &
+echo "Done. Log out and back in for full effect."
