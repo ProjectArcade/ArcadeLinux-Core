@@ -17,9 +17,8 @@ topPanel.addWidget("org.kde.plasma.panelspacer")
 
 var clock = topPanel.addWidget("org.kde.plasma.digitalclock")
 clock.currentConfigGroup = ["Appearance"]
-clock.writeConfig("showDate", "true")
+clock.writeConfig("showDate", "false")
 clock.writeConfig("showSeconds", "false")
-clock.writeConfig("dateFormat", "shortDate")
 clock.writeConfig("fixedFont", "true")
 clock.writeConfig("fontSize", "11")
 

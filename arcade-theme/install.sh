@@ -318,9 +318,7 @@ plasmashell --replace &> /dev/null &
 sleep 5
 
 # ── STEP 14: Apply wallpaper AFTER plasmashell starts ────────────
-WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}-dark/contents/images/3840x2160.jpg"
-[[ ! -f "${WALLPAPER_IMAGE}" ]] && WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}/contents/images/3840x2160.jpg"
-[[ ! -f "${WALLPAPER_IMAGE}" ]] && WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}/contents/images_dark/3840x2160.jpg"
+WALLPAPER_IMAGE="/home/notspidey/Desktop/ProjectArcade/ArcadeLinux-Core/arcade-theme/wallpaper/Arcade/contents/images/3840x2160.png"
 if command -v plasma-apply-wallpaperimage >/dev/null 2>&1 && [[ -f "${WALLPAPER_IMAGE}" ]]; then
   plasma-apply-wallpaperimage "${WALLPAPER_IMAGE}"
   echo "Wallpaper applied: ${WALLPAPER_IMAGE}"
