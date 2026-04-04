@@ -52,6 +52,23 @@ EOF
 [[ ! -d "${WALLPAPER_DIR}" ]] && mkdir -p "${WALLPAPER_DIR}"
 [[ ! -d "${ICONS_DIR}" ]] && mkdir -p "${ICONS_DIR}"
 
+install_sf_fonts() {
+  if ! fc-list | grep -qi "SF Pro"; then
+    echo "SF Pro font not found, installing..."
+    if command -v yay >/dev/null 2>&1; then
+      yay -S --noconfirm apple-fonts 2>/dev/null || true
+    elif command -v paru >/dev/null 2>&1; then
+      paru -S --noconfirm apple-fonts 2>/dev/null || true
+    else
+      echo "No AUR helper found. Install manually: yay -S apple-fonts"
+    fi
+    fc-cache -f
+    echo "SF Pro font installed."
+  else
+    echo "SF Pro font already installed, skipping."
+  fi
+}
+
 install_arcade_icons() {
   if [[ ! -d "${ICONS_DIR}/Arcade-icons" ]]; then
     echo "Arcade-icons not found, downloading from ArcadeLinux-Core..."
@@ -221,11 +238,14 @@ echo -e "Installing '${THEME_NAME} kde themes'..."
 rm -rf "${LOOKFEEL_DIR}/arcade.splash"
 rm -rf "${LOOKFEEL_DIR}/ArcadeSplash"
 
-# ── STEP 2: Install icons and splash ─────────────────────────────
+# ── STEP 2: Install SF Pro font ──────────────────────────────────
+install_sf_fonts
+
+# ── STEP 3: Install icons and splash ─────────────────────────────
 install_arcade_icons
 install_arcade_splash
 
-# ── STEP 3: Install theme files ──────────────────────────────────
+# ── STEP 4: Install theme files ──────────────────────────────────
 for color in "${colors[@]:-${COLOR_VARIANTS[@]}}"; do
   install "${name:-${THEME_NAME}}" "${color}"
 done
@@ -244,14 +264,14 @@ done
 
 echo -e "Install finished..."
 
-# ── STEP 4: Rebuild KDE cache ────────────────────────────────────
+# ── STEP 5: Rebuild KDE cache ────────────────────────────────────
 if command -v kbuildsycoca6 >/dev/null 2>&1; then
   kbuildsycoca6 >/dev/null 2>&1 || true
 elif command -v kbuildsycoca5 >/dev/null 2>&1; then
   kbuildsycoca5 >/dev/null 2>&1 || true
 fi
 
-# ── STEP 5: Apply global theme ───────────────────────────────────
+# ── STEP 6: Apply global theme ───────────────────────────────────
 echo "Applying Arcade theme..."
 if command -v plasma-apply-lookandfeel >/dev/null 2>&1; then
   plasma-apply-lookandfeel --apply com.github.ProjectArcade.Arcade
@@ -259,35 +279,45 @@ else
   lookandfeeltool --apply com.github.ProjectArcade.Arcade
 fi
 
-# ── STEP 6: Apply color scheme and widget style ──────────────────
+# ── STEP 7: Apply color scheme and widget style ──────────────────
 if command -v plasma-apply-colorscheme >/dev/null 2>&1; then
   plasma-apply-colorscheme ArcadeDark
 fi
 kwriteconfig6 --file kdeglobals --group General --key ColorScheme "ArcadeDark"
 kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle "kvantum-dark"
 
-# ── STEP 7: Set icon theme ───────────────────────────────────────
+# ── STEP 8: Set SF Pro as system font ────────────────────────────
+if fc-list | grep -qi "SF Pro"; then
+  kwriteconfig6 --file kdeglobals --group General --key font "SF Pro Text,11,-1,5,50,0,0,0,0,0"
+  kwriteconfig6 --file kdeglobals --group General --key menuFont "SF Pro Text,11,-1,5,50,0,0,0,0,0"
+  kwriteconfig6 --file kdeglobals --group General --key smallestReadableFont "SF Pro Text,9,-1,5,50,0,0,0,0,0"
+  kwriteconfig6 --file kdeglobals --group General --key toolBarFont "SF Pro Text,10,-1,5,50,0,0,0,0,0"
+  kwriteconfig6 --file kdeglobals --group General --key fixed "SF Mono,11,-1,5,50,0,0,0,0,0"
+  echo "SF Pro font set as system font."
+fi
+
+# ── STEP 9: Set icon theme ───────────────────────────────────────
 kwriteconfig6 --file kdeglobals --group Icons --key Theme "Arcade-icons"
 
-# ── STEP 8: Enable KWin blur ─────────────────────────────────────
+# ── STEP 10: Enable KWin blur ────────────────────────────────────
 kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled true
 kwriteconfig6 --file kwinrc --group Effect-blur --key BlurStrength 10
 qdbus6 org.kde.KWin /KWin reconfigure 2>/dev/null || true
 
-# ── STEP 9: Reset plasma layout ──────────────────────────────────
+# ── STEP 11: Reset plasma layout ─────────────────────────────────
 rm -f ~/.config/plasma-org.kde.plasma.desktop-appletsrc
 
-# ── STEP 10: Set panel opacity ───────────────────────────────────
+# ── STEP 12: Set panel opacity ───────────────────────────────────
 for panel_id in $(grep -o "Panel [0-9]*\]" ~/.config/plasmashellrc | grep -o "[0-9]*" | sort -u); do
   kwriteconfig6 --file plasmashellrc --group "PlasmaViews" --group "Panel ${panel_id}" --key "opacityMode" "3"
   kwriteconfig6 --file plasmashellrc --group "PlasmaViews" --group "Panel ${panel_id}" --key "floating" "1"
 done
 
-# ── STEP 11: Restart plasmashell ─────────────────────────────────
+# ── STEP 13: Restart plasmashell ─────────────────────────────────
 plasmashell --replace &> /dev/null &
 sleep 5
 
-# ── STEP 12: Apply wallpaper AFTER plasmashell starts ────────────
+# ── STEP 14: Apply wallpaper AFTER plasmashell starts ────────────
 WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}-dark/contents/images/3840x2160.jpg"
 [[ ! -f "${WALLPAPER_IMAGE}" ]] && WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}/contents/images/3840x2160.jpg"
 [[ ! -f "${WALLPAPER_IMAGE}" ]] && WALLPAPER_IMAGE="${WALLPAPER_DIR}/${THEME_NAME}/contents/images_dark/3840x2160.jpg"

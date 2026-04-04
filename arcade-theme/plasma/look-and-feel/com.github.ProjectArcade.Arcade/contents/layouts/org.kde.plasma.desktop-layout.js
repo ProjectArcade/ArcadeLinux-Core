@@ -1,4 +1,4 @@
-// Arcade Linux - macOS-like Desktop Layout
+// Arcade Linux - iOS-inspired Desktop Layout
 
 // ─── TOP MENU BAR ───────────────────────────────────────────────
 var topPanel = new Panel
@@ -8,29 +8,29 @@ topPanel.floating = true
 topPanel.hiding = "none"
 topPanel.lengthMode = "fill"
 
-// App launcher
-var kickoff = topPanel.addWidget("org.kde.plasma.kickoff")
-kickoff.currentConfigGroup = ["Shortcuts"]
-kickoff.writeConfig("global", "Alt+F1")
-
-// App menu
+// LEFT SIDE
+topPanel.addWidget("AndromedaLauncher")
 topPanel.addWidget("org.kde.plasma.appmenu")
 
-// Spacer
+// CENTER - clock pinned to center
 topPanel.addWidget("org.kde.plasma.panelspacer")
 
-// System tray
-topPanel.addWidget("org.kde.plasma.systemtray")
-
-topPanel.addWidget("org.kde.plasma.marginsseparator")
-
-// Clock
 var clock = topPanel.addWidget("org.kde.plasma.digitalclock")
 clock.currentConfigGroup = ["Appearance"]
-clock.writeConfig("showDate", "false")
+clock.writeConfig("showDate", "true")
 clock.writeConfig("showSeconds", "false")
+clock.writeConfig("dateFormat", "shortDate")
+clock.writeConfig("fixedFont", "true")
+clock.writeConfig("fontSize", "11")
 
-// Show desktop
+topPanel.addWidget("org.kde.plasma.panelspacer")
+
+// RIGHT SIDE
+var media = topPanel.addWidget("org.kde.plasma.mediacontroller")
+
+topPanel.addWidget("org.kde.plasma.marginsseparator")
+topPanel.addWidget("org.kde.plasma.systemtray")
+topPanel.addWidget("org.kde.plasma.marginsseparator")
 topPanel.addWidget("org.kde.plasma.showdesktop")
 
 // ─── BOTTOM FLOATING DOCK ───────────────────────────────────────
@@ -47,8 +47,12 @@ tasks.currentConfigGroup = ["General"]
 tasks.writeConfig("launchers", [
     "applications:org.kde.dolphin.desktop",
     "applications:org.kde.konsole.desktop",
-    "applications:brave-browser.desktop",
+    "preferred://browser",
+    "applications:org.kde.plasma-systemmonitor.desktop",
     "applications:systemsettings.desktop",
 ])
 tasks.writeConfig("iconSize", "3")
 tasks.writeConfig("fill", "false")
+
+dock.addWidget("org.kde.plasma.marginsseparator")
+// dock.addWidget("org.kde.plasma.trash")
