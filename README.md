@@ -18,6 +18,10 @@ KDE Plasma splash screen with animated visuals and time-based dynamic quotes.
 
 Custom icon theme designed for consistency across the Arcade Linux desktop.
 
+### arcade-theme
+
+Complete KDE Plasma visual theme pack with Plasma, Kvantum, Aurorae, SDDM, wallpaper, and color scheme customization.
+
 ---
 
 ## Credits & Attribution
@@ -46,6 +50,16 @@ Custom icon theme designed for consistency across the Arcade Linux desktop.
 <p><em>Splash Preview</em></p>
 
 </div>
+
+<div align="center">
+
+<img src="./core-ref-img/Arcade_theme_ss.png" alt="Arcade Theme Light Preview" width="550"/>
+<p><em>Arcade Theme</em></p>
+
+</div>
+
+---
+
 
 ---
 
@@ -188,6 +202,23 @@ System Settings → Icons
 ```
 
 ---
+
+# arcade-theme
+
+## Install
+
+```bash
+cd arcade-theme
+
+sudo ./install.sh
+```
+
+Apply via:
+
+```
+System Settings → Global Theme
+```
+
 
 ## Sync to Arcade-OS ISO
 
