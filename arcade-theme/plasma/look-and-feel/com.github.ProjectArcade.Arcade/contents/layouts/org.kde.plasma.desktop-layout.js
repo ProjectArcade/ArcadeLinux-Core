@@ -9,9 +9,7 @@ topPanel.hiding = "none"
 topPanel.lengthMode = "fill"
 
 // LEFT SIDE
-var kickoff = topPanel.addWidget("org.kde.plasma.kickoff")
-kickoff.currentConfigGroup = ["Shortcuts"]
-kickoff.writeConfig("global", "Alt+F1")
+topPanel.addWidget("org.kde.plasma.kickoff")
 topPanel.addWidget("org.kde.plasma.appmenu")
 
 // CENTER - clock pinned to center
@@ -27,6 +25,7 @@ clock.writeConfig("fontSize", "11")
 topPanel.addWidget("org.kde.plasma.panelspacer")
 
 // RIGHT SIDE
+var media = topPanel.addWidget("org.kde.plasma.mediacontroller")
 
 topPanel.addWidget("org.kde.plasma.marginsseparator")
 topPanel.addWidget("org.kde.plasma.systemtray")
