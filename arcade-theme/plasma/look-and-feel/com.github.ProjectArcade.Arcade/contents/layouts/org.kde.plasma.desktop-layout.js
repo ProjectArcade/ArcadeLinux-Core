@@ -30,7 +30,8 @@ var media = topPanel.addWidget("org.kde.plasma.mediacontroller")
 topPanel.addWidget("org.kde.plasma.marginsseparator")
 topPanel.addWidget("org.kde.plasma.systemtray")
 topPanel.addWidget("org.kde.plasma.marginsseparator")
-topPanel.addWidget("org.kde.plasma.showdesktop")
+topPanel.addWidget("org.kde.plasma.arcadebatteryindicator")
+// topPanel.addWidget("org.kde.plasma.showdesktop")
 topPanel.opacity = "translucent"
 
 // ─── BOTTOM FLOATING DOCK ───────────────────────────────────────

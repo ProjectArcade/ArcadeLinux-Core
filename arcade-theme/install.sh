@@ -9,6 +9,7 @@ if [ "$UID" -eq "$ROOT_UID" ]; then
   PLASMA_DIR="/usr/share/plasma/desktoptheme"
   LAYOUT_DIR="/usr/share/plasma/layout-templates"
   LOOKFEEL_DIR="/usr/share/plasma/look-and-feel"
+  PLASMOIDS_DIR="/usr/share/plasma/plasmoids"
   KVANTUM_DIR="/usr/share/Kvantum"
   WALLPAPER_DIR="/usr/share/wallpapers"
   ICONS_DIR="/usr/share/icons"
@@ -18,6 +19,7 @@ else
   PLASMA_DIR="$HOME/.local/share/plasma/desktoptheme"
   LAYOUT_DIR="$HOME/.local/share/plasma/layout-templates"
   LOOKFEEL_DIR="$HOME/.local/share/plasma/look-and-feel"
+  PLASMOIDS_DIR="$HOME/.local/share/plasma/plasmoids"
   KVANTUM_DIR="$HOME/.config/Kvantum"
   WALLPAPER_DIR="$HOME/.local/share/wallpapers"
   ICONS_DIR="$HOME/.local/share/icons"
@@ -48,6 +50,7 @@ EOF
 [[ ! -d "${PLASMA_DIR}" ]] && mkdir -p "${PLASMA_DIR}"
 [[ ! -d "${LAYOUT_DIR}" ]] && mkdir -p "${LAYOUT_DIR}"
 [[ ! -d "${LOOKFEEL_DIR}" ]] && mkdir -p "${LOOKFEEL_DIR}"
+[[ ! -d "${PLASMOIDS_DIR}" ]] && mkdir -p "${PLASMOIDS_DIR}"
 [[ ! -d "${KVANTUM_DIR}" ]] && mkdir -p "${KVANTUM_DIR}"
 [[ ! -d "${WALLPAPER_DIR}" ]] && mkdir -p "${WALLPAPER_DIR}"
 [[ ! -d "${ICONS_DIR}" ]] && mkdir -p "${ICONS_DIR}"
@@ -154,6 +157,19 @@ install_aurorae() {
   sed -i "s/WhiteSur/${name}${color}${window}${scale}/g" "${AURORAE_THEME}/metadata.desktop" "${AURORAE_THEME}/metadata.json"
 }
 
+install_plasmoids() {
+  if [[ -d "${SRC_DIR}/plasma/plasmoids" ]]; then
+    for plasmoid in "${SRC_DIR}/plasma/plasmoids"/*; do
+      if [[ -d "${plasmoid}" ]] && [[ -f "${plasmoid}/metadata.json" ]]; then
+        plasmoid_name=$(basename "${plasmoid}")
+        echo "Installing plasmoid: ${plasmoid_name}"
+        [[ -d "${PLASMOIDS_DIR}/${plasmoid_name}" ]] && rm -rf "${PLASMOIDS_DIR}/${plasmoid_name}"
+        cp -r "${plasmoid}" "${PLASMOIDS_DIR}/${plasmoid_name}"
+      fi
+    done
+  fi
+}
+
 while [[ "$#" -gt 0 ]]; do
   case "${1:-}" in
     -n|--name)
@@ -244,6 +260,9 @@ install_sf_fonts
 # ── STEP 3: Install icons and splash ─────────────────────────────
 install_arcade_icons
 install_arcade_splash
+
+# ── STEP 3b: Install plasmoids ───────────────────────────────────
+install_plasmoids
 
 # ── STEP 4: Install theme files ──────────────────────────────────
 for color in "${colors[@]:-${COLOR_VARIANTS[@]}}"; do
