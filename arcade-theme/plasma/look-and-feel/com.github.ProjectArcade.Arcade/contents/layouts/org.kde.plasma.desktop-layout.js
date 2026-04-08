@@ -9,7 +9,7 @@ topPanel.hiding = "none"
 topPanel.lengthMode = "fill"
 
 // Left section: app launcher and global app menu.
-topPanel.addWidget("org.kde.plasma.kickoff")
+topPanel.addWidget("org.kde.plasma.arcade-launcher")
 topPanel.addWidget("org.kde.plasma.appmenu")
 
 // Push utility widgets to the right side.
