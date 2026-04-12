@@ -41,19 +41,19 @@ Item {
 
         Text {
             visible: !root.searching
-            text: "PINNED"
-            color: Qt.rgba(1, 1, 1, 0.35)
+            text: "PINNED APPS"
+            color: Qt.rgba(1, 1, 1, 0.38)
             font.pixelSize: 10
-            font.letterSpacing: 1.2
+            font.letterSpacing: 1.1
         }
 
         GridView {
             id: pinnedGrid
             visible: !root.searching
             Layout.fillWidth: true
-            Layout.preferredHeight: 160
-            cellWidth: Math.floor(width / 4)
-            cellHeight: 78
+            Layout.preferredHeight: 164
+            cellWidth: Math.floor(width / 6)
+            cellHeight: 82
             model: root.favoritesModel
             clip: true
             interactive: false
@@ -70,7 +70,7 @@ Item {
                         width: 48
                         height: 48
                         radius: 12
-                        color: Qt.rgba(1, 1, 1, 0.06)
+                        color: Qt.rgba(1, 1, 1, 0.05)
                         border.color: Qt.rgba(1, 1, 1, 0.08)
                         border.width: 1
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -90,7 +90,7 @@ Item {
                         elide: Text.ElideRight
                         maximumLineCount: 1
                         font.pixelSize: 11
-                        color: Qt.rgba(1, 1, 1, 0.78)
+                        color: Qt.rgba(1, 1, 1, 0.82)
                     }
                 }
 
@@ -98,8 +98,10 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        root.favoritesModel.trigger(index, "", null)
-                        root.appActivated()
+                        if (root.favoritesModel && root.favoritesModel.trigger) {
+                            root.favoritesModel.trigger(index, "", null)
+                            root.appActivated()
+                        }
                     }
                 }
             }
@@ -108,9 +110,9 @@ Item {
         Text {
             visible: !root.searching
             text: "ALL APPS"
-            color: Qt.rgba(1, 1, 1, 0.35)
+            color: Qt.rgba(1, 1, 1, 0.38)
             font.pixelSize: 10
-            font.letterSpacing: 1.2
+            font.letterSpacing: 1.1
         }
 
         ListView {
@@ -142,7 +144,7 @@ Item {
 
                     Text {
                         text: model.display
-                        color: Qt.rgba(1, 1, 1, 0.82)
+                        color: Qt.rgba(1, 1, 1, 0.84)
                         font.pixelSize: 12
                     }
                 }
@@ -152,11 +154,21 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        root.allAppsModel.trigger(index, "", null)
-                        root.appActivated()
+                        if (root.allAppsModel && root.allAppsModel.trigger) {
+                            root.allAppsModel.trigger(index, "", null)
+                            root.appActivated()
+                        }
                     }
                 }
             }
+        }
+
+        Text {
+            visible: root.searching
+            text: "SEARCH RESULTS"
+            color: Qt.rgba(1, 1, 1, 0.38)
+            font.pixelSize: 10
+            font.letterSpacing: 1.1
         }
 
         ListView {
@@ -167,12 +179,16 @@ Item {
             clip: true
             spacing: 4
             model: runnerModel.count > 0 ? runnerModel.modelForRow(0) : null
+            currentIndex: count > 0 ? 0 : -1
+            focus: true
 
             delegate: Rectangle {
                 width: resultsList.width
-                height: 38
+                height: 40
                 radius: 8
-                color: resultMouse.containsMouse ? Qt.rgba(1, 1, 1, 0.10) : "transparent"
+                color: (resultsList.currentIndex === index || resultMouse.containsMouse)
+                    ? Qt.rgba(0.23, 0.39, 0.62, 0.35)
+                    : "transparent"
 
                 Row {
                     anchors.verticalCenter: parent.verticalCenter
@@ -188,7 +204,7 @@ Item {
 
                     Text {
                         text: model.display
-                        color: Qt.rgba(1, 1, 1, 0.82)
+                        color: Qt.rgba(1, 1, 1, 0.90)
                         font.pixelSize: 12
                     }
                 }
@@ -197,10 +213,29 @@ Item {
                     id: resultMouse
                     anchors.fill: parent
                     hoverEnabled: true
+                    onEntered: resultsList.currentIndex = index
                     onClicked: {
-                        resultsList.model.trigger(index, "", null)
+                        if (resultsList.model && resultsList.model.trigger) {
+                            resultsList.model.trigger(index, "", null)
+                            root.appActivated()
+                        }
+                    }
+                }
+            }
+
+            Keys.onPressed: event => {
+                if (event.key === Qt.Key_Down && currentIndex < count - 1) {
+                    currentIndex += 1
+                    event.accepted = true
+                } else if (event.key === Qt.Key_Up && currentIndex > 0) {
+                    currentIndex -= 1
+                    event.accepted = true
+                } else if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && currentIndex >= 0) {
+                    if (model && model.trigger) {
+                        model.trigger(currentIndex, "", null)
                         root.appActivated()
                     }
+                    event.accepted = true
                 }
             }
         }

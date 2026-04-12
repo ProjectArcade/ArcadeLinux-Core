@@ -5,7 +5,7 @@ import org.kde.kirigami as Kirigami
 
 Item {
     id: root
-    height: 40
+    height: 46
 
     signal searchTextChanged(string text)
 
@@ -19,31 +19,31 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        radius: 12
-        color: Qt.rgba(1, 1, 1, 0.08)
-        border.color: Qt.rgba(1, 1, 1, 0.12)
+        radius: 11
+        color: Qt.rgba(1, 1, 1, 0.10)
+        border.color: Qt.rgba(1, 1, 1, 0.14)
         border.width: 1
 
         RowLayout {
             anchors.fill: parent
-            anchors.leftMargin: 12
-            anchors.rightMargin: 10
-            spacing: 8
+            anchors.leftMargin: 14
+            anchors.rightMargin: 12
+            spacing: 10
 
             Kirigami.Icon {
                 source: "search"
-                width: 16
-                height: 16
-                color: Qt.rgba(1, 1, 1, 0.45)
+                width: 18
+                height: 18
+                color: Qt.rgba(1, 1, 1, 0.5)
                 Layout.alignment: Qt.AlignVCenter
             }
 
             TextField {
                 id: input
                 Layout.fillWidth: true
-                placeholderText: "Search apps..."
+                placeholderText: "Search apps, files, commands"
                 color: "white"
-                font.pixelSize: 13
+                font.pixelSize: 14
 
                 background: Rectangle { color: "transparent" }
 

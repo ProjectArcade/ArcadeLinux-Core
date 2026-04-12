@@ -14,8 +14,9 @@ PlasmaCore.Dialog {
     hideOnWindowDeactivate: true
     backgroundHints: PlasmaCore.Dialog.NoBackground
 
-    property int popupWidth: 620
-    property int popupHeight: 640
+    property int popupWidth: 760
+    property int popupHeight: 560
+
     width: popupWidth
     height: popupHeight
 
@@ -32,8 +33,8 @@ PlasmaCore.Dialog {
 
     function positionWindow() {
         var screen = Qt.application.screens[0]
-        x = (screen.width / 2) - (popupWidth / 2)
-        y = (screen.height / 2) - (popupHeight / 2)
+        x = Math.round((screen.width - popupWidth) / 2)
+        y = Math.round((screen.height - popupHeight) / 2)
     }
 
     FocusScope {
@@ -42,15 +43,15 @@ PlasmaCore.Dialog {
 
         Rectangle {
             anchors.fill: parent
-            radius: 18
-            color: Qt.rgba(0.07, 0.08, 0.14, 0.9)
-            border.color: Qt.rgba(1, 1, 1, 0.10)
+            radius: 14
+            color: Qt.rgba(0.08, 0.10, 0.16, 0.96)
+            border.color: Qt.rgba(1, 1, 1, 0.12)
             border.width: 1
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 18
-                spacing: 14
+                anchors.margins: 16
+                spacing: 10
 
                 Header {
                     Layout.fillWidth: true
