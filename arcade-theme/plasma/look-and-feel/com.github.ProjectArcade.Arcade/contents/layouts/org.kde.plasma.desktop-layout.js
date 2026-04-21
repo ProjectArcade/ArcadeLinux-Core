@@ -1,5 +1,3 @@
-// Arcade Linux - iOS-inspired Desktop Layout
-
 // ─── TOP MENU BAR ───────────────────────────────────────────────
 var topPanel = new Panel
 topPanel.location = "top"
@@ -8,54 +6,128 @@ topPanel.floating = true
 topPanel.hiding = "none"
 topPanel.lengthMode = "fill"
 
-// Left section: app launcher and global app menu.
+// ── App launcher ─────────────────────────────────────────────────
 topPanel.addWidget("org.kde.plasma.arcade-launcher")
+
+// ── Global app menu ──────────────────────────────────────────────
 topPanel.addWidget("org.kde.plasma.appmenu")
 
-// Push utility widgets to the right side.
+// ── Spacer ────────────────────────────────────────────────────────
 topPanel.addWidget("org.kde.plasma.panelspacer")
 
-// Right section: media, audio, brightness, network, and battery widgets.
+// ── Media controller — vanishes when nothing playing ─────────────
 var media = topPanel.addWidget("org.kde.plasma.mediacontroller")
+media.currentConfigGroup = ["General"]
+media.writeConfig("displayWhenNoPlayer", "false")
 
-// Spacing before audio controls.
-topPanel.addWidget("org.kde.plasma.marginsseparator")
-topPanel.addWidget("org.kde.plasma.marginsseparator")
-topPanel.addWidget("org.kde.plasma.volume")
-
-// Spacing between volume and brightness controls.
-topPanel.addWidget("org.kde.plasma.marginsseparator")
 topPanel.addWidget("org.kde.plasma.marginsseparator")
 
-// Screen brightness control.
-topPanel.addWidget("org.kde.plasma.brightness")
+// ── System tray — ONLY screen recording + VPN when active ────────
+// bluetooth is standalone below, so hide it here to avoid duplicate
+var tray = topPanel.addWidget("org.kde.plasma.systemtray")
+tray.currentConfigGroup = ["General"]
 
-// Spacing before network management.
-topPanel.addWidget("org.kde.plasma.marginsseparator")
+tray.writeConfig("knownItems", [
+    "org.kde.plasma.screenrecording",
+    "org.kde.plasma.vpn",
+    "org.kde.plasma.battery",
+    "org.kde.plasma.volume",
+    "org.kde.plasma.brightness",
+    "org.kde.plasma.networkmanagement",
+    "org.kde.plasma.bluetooth",
+    "org.kde.kscreen",
+    "org.kde.plasma.clipboard",
+    "org.kde.plasma.notifications",
+    "org.kde.plasma.mediacontroller",
+])
+
+tray.writeConfig("hiddenItems", [
+    "org.kde.plasma.battery",
+    "org.kde.plasma.volume",
+    "org.kde.plasma.brightness",
+    "org.kde.plasma.networkmanagement",
+    "org.kde.plasma.bluetooth",        // hidden here — standalone below
+    "org.kde.kscreen",
+    "org.kde.plasma.clipboard",
+    "org.kde.plasma.notifications",
+    "org.kde.plasma.mediacontroller",
+])
+
+tray.writeConfig("shownItems", [
+    "org.kde.plasma.screenrecording",  // red dot when recording
+    "org.kde.plasma.vpn",              // only when VPN on
+])
+
 topPanel.addWidget("org.kde.plasma.marginsseparator")
 
+// ── Bluetooth — standalone KDE default (tray one is hidden above) ─
+topPanel.addWidget("org.kde.plasma.bluetooth")
+
+topPanel.addWidget("org.kde.plasma.marginsseparator")
+
+// ── Wifi — KDE default networkmanagement ─────────────────────────
 topPanel.addWidget("org.kde.plasma.networkmanagement")
 
-// Spacing between network and battery indicator.
-topPanel.addWidget("org.kde.plasma.marginsseparator")
 topPanel.addWidget("org.kde.plasma.marginsseparator")
 
-// Battery status indicator (auto-hidden by the plasmoid when no battery exists).
+// ── Battery — your arcade battery indicator ───────────────────────
 topPanel.addWidget("org.kde.plasma.arcadebatteryindicator")
 
 topPanel.addWidget("org.kde.plasma.marginsseparator")
-topPanel.addWidget("org.kde.plasma.marginsseparator")
-// Right-end date and time display (Plasma 6 compatible).
+
+// ── Clock — KDE default, precise date + 12h time ─────────────────
 var clock = topPanel.addWidget("org.kde.plasma.digitalclock")
 clock.currentConfigGroup = ["Appearance"]
 clock.writeConfig("showDate", "true")
 clock.writeConfig("dateFormat", "custom")
-clock.writeConfig("customDateFormat", "d MMM")
+clock.writeConfig("customDateFormat", "ddd, d MMM ")
 clock.writeConfig("showSeconds", "false")
 clock.writeConfig("use24hFormat", "0")
+clock.writeConfig("showTimezone", "false")
 
-// topPanel.addWidget("org.kde.plasma.showdesktop")
 topPanel.opacity = "translucent"
+
+// ─── BOTTOM FLOATING DOCK ────────────────────────────────────────
+var dock = new Panel
+dock.location = "bottom"
+dock.height = 64
+dock.floating = true
+dock.hiding = "none"
+dock.lengthMode = "fit"
+dock.alignment = "center"
+
+var tasks = dock.addWidget("org.kde.plasma.icontasks")
+tasks.currentConfigGroup = ["General"]
+tasks.writeConfig("launchers", [
+    "preferred://filemanager",
+    "applications:org.kde.konsole.desktop",
+    "preferred://browser",
+    "applications:org.kde.plasma-systemmonitor.desktop",
+    "applications:systemsettings.desktop",
+])
+
+dock.opacity = "translucent"
+
+// ─── BOTTOM FLOATING DOCK ────────────────────────────────────────
+var dock = new Panel
+dock.location = "bottom"
+dock.height = 64
+dock.floating = true
+dock.hiding = "none"
+dock.lengthMode = "fit"
+dock.alignment = "center"
+
+var tasks = dock.addWidget("org.kde.plasma.icontasks")
+tasks.currentConfigGroup = ["General"]
+tasks.writeConfig("launchers", [
+    "preferred://filemanager",
+    "applications:org.kde.konsole.desktop",
+    "preferred://browser",
+    "applications:org.kde.plasma-systemmonitor.desktop",
+    "applications:systemsettings.desktop",
+])
+
+dock.opacity = "translucent"
 
 // ─── BOTTOM FLOATING DOCK ───────────────────────────────────────
 var dock = new Panel
