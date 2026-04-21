@@ -7,19 +7,19 @@ import org.kde.plasma.plasma5support as Plasma5Support
 PlasmoidItem {
     id: root
 
-    property bool cameraActive: false
-    property string cameraApps: ""
-    readonly property color indicatorColor: Qt.rgba(0.18, 0.86, 0.42, 1.0)
-    readonly property string checkCommand: "sh -c 'pids=\"\"; for dev in /dev/video*; do [ -e \"$dev\" ] || continue; devpids=$(fuser \"$dev\" 2>/dev/null | sed \"s/[^0-9[:space:]]/ /g\"); [ -n \"$devpids\" ] && pids=\"$pids $devpids\"; done; if [ -n \"$pids\" ]; then uniqpids=$(printf \"%s\\n\" $pids | tr \" \" \"\\n\" | sed \"/^$/d\" | sort -u); pidcsv=$(echo \"$uniqpids\" | tr \"\\n\" \",\" | sed \"s/,$//\"); apps=$(ps -p \"$pidcsv\" -o comm= 2>/dev/null | sed \"/^$/d\" | sort -u | tr \"\\n\" \",\" | sed \"s/,$//\"); echo \"active|$apps\"; else echo \"idle|\"; fi'"
+    property bool micActive: false
+    property string micApps: ""
+    readonly property color indicatorColor: Qt.rgba(1.0, 0.58, 0.15, 1.0)
+    readonly property string checkCommand: "sh -c 'if ! command -v pactl >/dev/null 2>&1; then echo \"idle|\"; exit 0; fi; apps=$(pactl list source-outputs 2>/dev/null | sed -n \"s/.*application.name = \\\"\\(.*\\)\\\".*/\\1/p\" | sort -u | tr \"\\n\" \",\" | sed \"s/,$//\"); if [ -n \"$apps\" ]; then echo \"active|$apps\"; else echo \"idle|\"; fi'"
 
     preferredRepresentation: fullRepresentation
     Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground
-    Plasmoid.status: cameraActive ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.HiddenStatus
+    Plasmoid.status: micActive ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.HiddenStatus
 
-    toolTipMainText: i18n("Camera")
-    toolTipSubText: cameraActive ? (cameraApps.length > 0 ? i18n("In use by: %1", cameraApps) : i18n("Camera is in use")) : i18n("Camera is idle")
+    toolTipMainText: i18n("Microphone")
+    toolTipSubText: micActive ? (micApps.length > 0 ? i18n("In use by: %1", micApps) : i18n("Microphone is in use")) : i18n("Microphone is idle")
 
-    function refreshCameraState() {
+    function refreshMicState() {
         execSource.disconnectSource(checkCommand)
         execSource.connectSource(checkCommand)
     }
@@ -36,8 +36,8 @@ PlasmoidItem {
 
             const stdoutText = data["stdout"] ? data["stdout"].toString().trim() : ""
             const parts = stdoutText.split("|")
-            root.cameraActive = parts.length > 0 && parts[0] === "active"
-            root.cameraApps = parts.length > 1 ? parts[1] : ""
+            root.micActive = parts.length > 0 && parts[0] === "active"
+            root.micApps = parts.length > 1 ? parts[1] : ""
             execSource.disconnectSource(sourceName)
         }
     }
@@ -48,7 +48,7 @@ PlasmoidItem {
         running: true
         repeat: true
         triggeredOnStart: true
-        onTriggered: root.refreshCameraState()
+        onTriggered: root.refreshMicState()
     }
 
     fullRepresentation: Item {
@@ -56,12 +56,12 @@ PlasmoidItem {
 
         readonly property real indicatorSize: parent ? Math.min(parent.height, 11) : 11
 
-        Layout.preferredWidth: root.cameraActive ? indicatorSize : 0
+        Layout.preferredWidth: root.micActive ? indicatorSize : 0
         Layout.preferredHeight: indicatorSize
-        Layout.minimumWidth: root.cameraActive ? indicatorSize : 0
+        Layout.minimumWidth: root.micActive ? indicatorSize : 0
         Layout.minimumHeight: indicatorSize
 
-        visible: root.cameraActive
+        visible: root.micActive
 
         Rectangle {
             id: dot
@@ -75,13 +75,13 @@ PlasmoidItem {
 
         PlasmaCore.ToolTipArea {
             anchors.fill: parent
-            active: root.cameraActive
-            mainText: i18n("Camera")
-            subText: root.cameraApps.length > 0 ? i18n("In use by: %1", root.cameraApps) : i18n("Camera is in use")
+            active: root.micActive
+            mainText: i18n("Microphone")
+            subText: root.micApps.length > 0 ? i18n("In use by: %1", root.micApps) : i18n("Microphone is in use")
         }
 
         SequentialAnimation {
-            running: root.cameraActive
+            running: root.micActive
             loops: Animation.Infinite
 
             NumberAnimation {

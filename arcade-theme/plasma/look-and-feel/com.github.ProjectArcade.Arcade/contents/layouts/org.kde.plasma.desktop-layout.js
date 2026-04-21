@@ -10,10 +10,11 @@ topPanel.addWidget("org.kde.plasma.kickoff")
 topPanel.addWidget("org.kde.plasma.appmenu")
 topPanel.addWidget("org.kde.plasma.panelspacer")
 
-// Media — auto-hides when nothing playing
-topPanel.addWidget("org.kde.plasma.arcadecameraindicator")
+topPanel.addWidget("org.kde.plasma.arcadeprivacyindicator")
+topPanel.addWidget("org.kde.plasma.marginsseparator")
 topPanel.addWidget("org.kde.plasma.marginsseparator")
 
+// Media — auto-hides when nothing playing
 var media = topPanel.addWidget("org.kde.plasma.mediacontroller")
 media.currentConfigGroup = ["General"]
 media.writeConfig("displayWhenNoPlayer", false)
@@ -26,6 +27,7 @@ tray.currentConfigGroup = ["General"]
 tray.writeConfig("knownItems", [
     "org.kde.plasma.screenrecording",
     "org.kde.plasma.vpn",
+    "org.kde.plasma.privacy",
     "org.kde.plasma.battery",
     "org.kde.plasma.volume",
     "org.kde.plasma.brightness",
@@ -37,6 +39,7 @@ tray.writeConfig("knownItems", [
     "org.kde.plasma.mediacontroller",
 ])
 tray.writeConfig("hiddenItems", [
+    "org.kde.plasma.privacy",
     "org.kde.plasma.battery",
     "org.kde.plasma.volume",
     "org.kde.plasma.brightness",
